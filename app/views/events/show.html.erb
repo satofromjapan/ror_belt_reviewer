@@ -1,0 +1,39 @@
+<h1><%=@event.name%></h1>
+<a href="/events">Events Dashboard</a>
+
+<p>Host: <%=@event.user.first_name%> <%=@event.user.last_name%></p>
+<p>Location: <%=@event.city%>, <%=@event.state%></p>
+<p>People who are joining the event: <%=@event.joins.count%></p>
+
+<table border="1|0">
+  <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>State</th>
+  </tr>
+  <% for user in @event.users%>
+  <tr>
+    <td><%=user.first_name%> <%=user.last_name%></td>
+    <td><%=user.city%></td>
+    <td><%=user.state%></td>
+  </tr>
+  <%end%>
+</table>
+
+<h2>Comments</h2>
+<div class="comments" style="border: 1px solid black; padding: 5px; width: 400px; overflow: scroll;">
+  <%for comment in @event.comments%>
+  <div class="comment">
+    <p><%=comment.user.first_name%> says: <%=comment.content%></p>
+    <hr>
+  </div>
+  <%end%>
+</div>
+
+<h3>Add Comment:</h3>
+<form class="" action="/comments" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="comment[event_id]" value="<%=@event.id%>">
+  <input type="text" name="comment[content]" value="">
+  <input type="submit" name="Comment" value="Submit Comment">
+</form>
